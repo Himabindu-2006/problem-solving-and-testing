@@ -1,0 +1,59 @@
+import java.util.*;
+
+abstract class Vehicle {
+    abstract int fare(double d);
+}
+
+class Bike extends Vehicle {
+    int fare(double d) { return (int)(d * 5); }
+}
+
+class Auto extends Vehicle {
+    int fare(double d) { return (int)(d * 12); }
+}
+
+class Cab extends Vehicle {
+    int fare(double d) { return (int)(d * 12); }
+}
+
+class Trip {
+    Vehicle v;
+    double d;
+
+    Trip(Vehicle v, double d) {
+        if (d <= 0) throw new IllegalArgumentException();
+        this.v = v;
+        this.d = d;
+    }
+
+    int getFare() {
+        return v.fare(d);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        while (n-- > 0) {
+            String type = sc.next();
+            double d = sc.nextDouble();
+
+            try {
+                Vehicle v;
+
+                switch (type.toLowerCase()) {
+                    case "bike": v = new Bike(); break;
+                    case "auto": v = new Auto(); break;
+                    case "cab": v = new Cab(); break;
+                    default: throw new IllegalArgumentException();
+                }
+
+                System.out.println(new Trip(v, d).getFare());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid booking");
+            }
+        }
+    }
+}
